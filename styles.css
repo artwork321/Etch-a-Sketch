@@ -1,0 +1,15 @@
+#canva {
+    border: 1px solid black;
+    padding: 20px; /* temporary */
+    display: flex;
+}
+
+.grid {
+    border: 1px solid palevioletred;
+    background-color: whitesmoke;
+    padding: 20px; /* temporary */
+}
+
+.active {
+    background-color: pink;
+}
