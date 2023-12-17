@@ -4,19 +4,24 @@
 
 const SIZE = 16;
 const MAX_SIZE = 64;
+const MAX_CANVA = 640.0;
 let canva = document.createElement("div");
 canva.setAttribute("id", "canva");
 let gridNum = SIZE;
+let isRainBow = false;
+let isMouseDown = false;
 
-function createGrids(gridNum){
-    for (let i = 0; i < gridNum; i++) {
+function createGrids(num){
+    for (let i = 0; i < num; i++) {
         let row = document.createElement("div");
         row.setAttribute("id", "row");
     
-        for (let i = 0; i < gridNum; i++){
+        for (let i = 0; i < num; i++){
             grid = document.createElement("div");
             grid.classList.add("grid");
-            grid.addEventListener("mouseover", colored);
+            grid.style["width"] = MAX_CANVA/num + "px";
+            grid.style["height"] = MAX_CANVA/num + "px";
+            grid.addEventListener("mouseover", coloured);
             grid.addEventListener("click", clickColored);
             row.appendChild(grid);
         }
@@ -30,8 +35,6 @@ createGrids(gridNum);
 
 
 // Event for pressing a grid
-let isMouseDown = false;
-
 document.addEventListener('mousedown', () => {
     isMouseDown = true;
 });
@@ -40,14 +43,25 @@ document.addEventListener('mouseup', () => {
     isMouseDown = false;
 });
 
+let colour = "pink";
+
 function clickColored() {
-    this.classList.add("active");
+    this.style["background-color"] = colour;
 }
 
-// Only color the grid when the mouse is pressed
-function colored() {
+
+// Draw rainbow colours when the mouse is pressed
+function coloured() {
     if (isMouseDown) {
-        this.classList.add("active");
+        if (isRainBow){
+            let rpg = [];
+            rpg.push(Math.floor(Math.random() * 256));
+            rpg.push(Math.floor(Math.random() * 256));
+            rpg.push(Math.floor(Math.random() * 256));
+            let text = rpg.join(",");
+            colour = "rgb(" + text + ")";
+        }
+        this.style["background-color"] = colour;
     }
 }
 
@@ -75,4 +89,14 @@ function takeGrids() {
     createGrids(gridNum);
 }
 
+/* Button to draw in rainbow colour*/
+rainbowMode = document.createElement("button");
+
+rainbowMode.textContent = "Rainbow Mode";
+rainbowMode.addEventListener("click", ()=> {
+    isRainBow = true;
+    rainbowMode.classList.toggle("pressed");
+})
+
+buttons.appendChild(rainbowMode);
 
